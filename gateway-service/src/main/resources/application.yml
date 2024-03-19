@@ -22,6 +22,11 @@ spring:
           uri: lb://borrow-service
           predicates:
             - Path=/borrow/**
+
+        - id: admin_service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin/**
   application:
     name: gateway-service
   redis:

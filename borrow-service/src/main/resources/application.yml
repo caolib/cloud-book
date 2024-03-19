@@ -27,8 +27,11 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
-  cache:
-    type: none
+  redis:
+    host: 192.168.0.88
+    password: 123456
+    port: 6379
+    database: 0
 
 # 日志
 logging:

@@ -8,14 +8,14 @@
         <version>2.3.12.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>com.clb</groupId>
-    <artifactId>reader-service</artifactId>
+    <artifactId>admin-service</artifactId>
     <version>2.0.0.RELEASE</version>
 
     <properties>
         <java.version>8</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,6 +118,7 @@
             <version>2.2.7.RELEASE</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -134,5 +135,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
