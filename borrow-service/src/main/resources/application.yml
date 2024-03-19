@@ -1,0 +1,39 @@
+server:
+  port: 8082
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.clb.domain
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    banner: off
+
+spring:
+  devtools:
+    restart:
+      additional-exclude: com/clb/util/Advice.class
+  # nacos 配置
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+  # 应用名称，nacos中需要使用
+  application:
+    name: borrow-service
+  # mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/java_design?serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  cache:
+    type: none
+
+# 日志
+logging:
+  level:
+    com.clb: debug
+    root: info
+  pattern:
+    dateformat: "yy/MM-dd HH:mm:ss.SSS"

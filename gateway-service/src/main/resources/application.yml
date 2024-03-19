@@ -1,0 +1,39 @@
+server:
+  port: 10086
+
+spring:
+  # nacos 配置
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: reader_service
+          uri: lb://reader-service
+          predicates:
+            - Path=/reader/**
+
+        - id: book_service
+          uri: lb://book-service
+          predicates:
+            - Path=/book/**
+
+        - id: borrow_service
+          uri: lb://borrow-service
+          predicates:
+            - Path=/borrow/**
+  application:
+    name: gateway-service
+  redis:
+    host: 192.168.0.88
+    password: 123456
+    port: 6379
+    database: 0
+
+# 日志
+logging:
+  level:
+    com.clb: debug
+    root: info
+  pattern:
+    dateformat: "yy/MM-dd HH:mm:ss.SSS"
