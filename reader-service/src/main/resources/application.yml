@@ -18,6 +18,7 @@ spring:
     nacos:
       server-addr: localhost:8848
       discovery:
+        cluster-name: zh
         weight: 1 # 权重
 
   application:

@@ -6,6 +6,8 @@ spring:
   cloud:
     nacos:
       server-addr: localhost:8848
+      discovery:
+        cluster-name: zh
     gateway:
       routes:
         - id: reader_service

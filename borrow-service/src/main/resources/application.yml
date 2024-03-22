@@ -17,9 +17,16 @@ spring:
   cloud:
     nacos:
       server-addr: localhost:8848
+      discovery:
+        cluster-name: zh
+    loadbalancer:
+      ribbon:
+        enabled: true
   # 应用名称，nacos中需要使用
   application:
     name: borrow-service
+
+
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -32,6 +39,7 @@ spring:
     password: 123456
     port: 6379
     database: 0
+
 
 # 日志
 logging:

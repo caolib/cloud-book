@@ -3,9 +3,6 @@ package com.clb.interceptor;
 import com.clb.constant.Common;
 import com.clb.constant.Excep;
 import com.clb.exception.BaseException;
-import com.clb.util.JwtUtils;
-import com.clb.util.ThreadLocalUtil;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -29,14 +26,16 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         String path = exchange.getRequest().getPath().value();
         // 不对/login和/register接口校验
         if (path.endsWith("/login") || path.endsWith("/register")) {
-            log.debug("直接跳过...");
+            log.debug("登录注册接口，直接跳过...");
             return chain.filter(exchange);
         }
 
         log.debug("开始校验...");
 
         String token = exchange.getRequest().getHeaders().getFirst(Common.TOKEN);
+        log.info("token:{}", token);
         if (token == null || token.isEmpty()) {
+            log.info("null|empty");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
@@ -46,9 +45,6 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             if (redisToken == null) {
                 throw new BaseException(Excep.TOKEN_ALREADY_EXPIRED);
             }
-            Claims claims = JwtUtils.parseJWT(token);
-            // 保存用户信息
-            ThreadLocalUtil.set(claims);
         } catch (Exception e) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();

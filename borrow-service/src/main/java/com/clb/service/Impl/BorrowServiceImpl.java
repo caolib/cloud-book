@@ -1,6 +1,8 @@
 package com.clb.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.clb.constant.Common;
+import com.clb.constant.Excep;
 import com.clb.domain.Borrow;
 import com.clb.domain.Result;
 import com.clb.domain.vo.BorrowVo;
@@ -99,11 +101,17 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public Result<List<BorrowVo>> getBorrowByReaderIdII(Integer id) {
-        List<BorrowVo> result = null;
         if (id != null) {
-            result = borrowMapper.selectByReaderId(id);
+            List<BorrowVo> result = borrowMapper.selectByReaderId(id);
+            return Result.success(result);
         }
-        return Result.success(result);
+        return Result.error(Excep.READER_ID_IS_NULL);
     }
 
+    @Override
+    public List<Borrow> getBorrowByIsbn(String isbn) {
+        LambdaQueryWrapper<Borrow> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Borrow::getIsbn, isbn);
+        return borrowMapper.selectList(queryWrapper);
+    }
 }
