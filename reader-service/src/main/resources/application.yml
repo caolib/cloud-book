@@ -13,16 +13,7 @@ spring:
   devtools:
     restart:
       additional-exclude: com/clb/util/Advice.class
-  # nacos 配置
-  cloud:
-    nacos:
-      server-addr: localhost:8848
-      discovery:
-        cluster-name: zh
-        weight: 1 # 权重
-
-  application:
-    name: reader-service
+      enabled: false
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -18,7 +18,6 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtTokenInterceptor implements GlobalFilter, Ordered {
-
     private final StringRedisTemplate redisTemplate;
 
     @Override
@@ -33,15 +32,18 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         log.debug("开始校验...");
 
         String token = exchange.getRequest().getHeaders().getFirst(Common.TOKEN);
-        log.info("token:{}", token);
+        log.debug("token:{}", token);
         if (token == null || token.isEmpty()) {
-            log.info("null|empty");
+            // 如果token为空，拦截请求，返回状态码401
+            log.debug("null|empty");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
+
         try {
             String redisToken = redisTemplate.opsForValue().get(token);
+            // 如果redis中没有对应的key，抛出异常
             if (redisToken == null) {
                 throw new BaseException(Excep.TOKEN_ALREADY_EXPIRED);
             }
@@ -55,6 +57,6 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -100;
+        return 0;
     }
 }

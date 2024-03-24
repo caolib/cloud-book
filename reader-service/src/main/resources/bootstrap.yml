@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: reader-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yml # 文件后缀名
+#      discovery:
+#        cluster-name: zh
+#        weight: 1 # 权重
+config:
+  name: "cao"
