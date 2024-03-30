@@ -54,7 +54,7 @@ spring:
 
   devtools:
     restart:
-      enabled: true
+      enabled: false
 
 
 

@@ -33,8 +33,6 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        log.debug("开始校验...");
-
         String token = exchange.getRequest().getHeaders().getFirst(Common.TOKEN);
         log.debug("token:{}", token);
         // 如果token为空，拦截请求，返回状态码401
