@@ -1,7 +1,7 @@
 package com.clb.clients;
 
-import com.clb.domain.Borrow;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+
+import com.clb.common.domain.Borrow;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

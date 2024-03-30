@@ -1,9 +1,10 @@
 package com.clb.service;
 
-import com.clb.domain.Result;
-import com.clb.domain.dto.LoginDto;
-import com.clb.domain.entity.Reader;
-import com.clb.domain.vo.ReaderVo;
+
+import com.clb.common.domain.Result;
+import com.clb.common.domain.dto.LoginDto;
+import com.clb.common.domain.entity.Reader;
+import com.clb.common.domain.vo.ReaderVo;
 
 import java.util.List;
 

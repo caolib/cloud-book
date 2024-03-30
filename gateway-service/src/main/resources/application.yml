@@ -1,6 +1,7 @@
 server:
   port: 10086
 
+
 spring:
   # nacos配置
   cloud:
@@ -43,11 +44,18 @@ spring:
       transport:
         dashboard: localhost:8079 # sentinel控制台地址
 
+
   redis:
-    host: 192.168.0.88
+    #    host: 192.168.0.88
+    host: centos
     password: 123456
     port: 6379
     database: 0
+
+  devtools:
+    restart:
+      enabled: true
+
 
 
 # 日志
@@ -57,3 +65,4 @@ logging:
     root: info
   pattern:
     dateformat: "yy/MM-dd HH:mm:ss.SSS"
+

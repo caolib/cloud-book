@@ -1,10 +1,12 @@
 package com.clb.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.clb.domain.entity.Book;
+import com.clb.common.domain.entity.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
 
 @Mapper
 public interface BookMapper extends BaseMapper<Book> {

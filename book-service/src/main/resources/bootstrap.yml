@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+  #      discovery:
+  #        cluster-name: zh
+  #    loadbalancer:
+  #      ribbon:
+  #        enabled: true
+  application:
+    name: book-service

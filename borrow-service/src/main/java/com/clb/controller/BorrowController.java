@@ -1,11 +1,12 @@
 package com.clb.controller;
 
-import com.clb.constant.Cache;
-import com.clb.constant.Excep;
-import com.clb.domain.Borrow;
-import com.clb.domain.Result;
-import com.clb.domain.vo.BorrowVo;
-import com.clb.exception.BaseException;
+
+import com.clb.common.constant.Cache;
+import com.clb.common.constant.Excep;
+import com.clb.common.domain.Borrow;
+import com.clb.common.domain.Result;
+import com.clb.common.domain.vo.BorrowVo;
+import com.clb.common.exception.BaseException;
 import com.clb.service.BorrowService;
 import com.clb.util.MyUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -31,15 +32,6 @@ public class BorrowController {
     @GetMapping
     public Result<List<BorrowVo>> getBorrowByReaderId() {
         return borrowService.getBorrowByReaderId();
-    }
-
-    /**
-     * todo 接口更新，需要传递id
-     * 查询用户借阅记录
-     */
-    @GetMapping("/{id}")
-    public Result<List<BorrowVo>> getBorrowByReaderIdII(@PathVariable Integer id) {
-        return borrowService.getBorrowByReaderIdII(id);
     }
 
     /**

@@ -1,8 +1,9 @@
 package com.clb.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.clb.domain.Borrow;
-import com.clb.domain.vo.BorrowVo;
+import com.clb.common.domain.Borrow;
+import com.clb.common.domain.vo.BorrowVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

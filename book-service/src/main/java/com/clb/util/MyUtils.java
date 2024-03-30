@@ -1,7 +1,8 @@
 package com.clb.util;
 
-import com.clb.constant.Excep;
-import com.clb.exception.BaseException;
+
+import com.clb.common.constant.Excep;
+import com.clb.common.exception.BaseException;
 
 import java.sql.Date;
 import java.text.ParseException;

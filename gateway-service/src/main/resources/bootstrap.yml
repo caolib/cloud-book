@@ -6,5 +6,7 @@ spring:
       server-addr: localhost:8848
       config:
         file-extension: yml # 文件后缀名
+      discovery:
+        ephemeral: false
   application:
     name: gateway-service

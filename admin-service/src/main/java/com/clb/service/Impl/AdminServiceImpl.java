@@ -1,13 +1,13 @@
 package com.clb.service.Impl;
 
-import com.clb.constant.Excep;
-import com.clb.constant.Jwt;
-import com.clb.domain.Result;
-import com.clb.domain.dto.LoginDto;
-import com.clb.domain.entity.Admin;
-import com.clb.domain.vo.AdminVo;
-import com.clb.exception.AlreadyExistException;
-import com.clb.exception.BaseException;
+import com.clb.common.constant.Excep;
+import com.clb.common.constant.Jwt;
+import com.clb.common.domain.Result;
+import com.clb.common.domain.dto.LoginDto;
+import com.clb.common.domain.entity.Admin;
+import com.clb.common.domain.vo.AdminVo;
+import com.clb.common.exception.AlreadyExistException;
+import com.clb.common.exception.BaseException;
 import com.clb.mapper.AdminMapper;
 import com.clb.service.AdminService;
 import com.clb.util.JwtUtils;

@@ -1,7 +1,8 @@
 package com.clb.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.clb.domain.entity.Admin;
+import com.clb.common.domain.entity.Admin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

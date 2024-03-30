@@ -1,7 +1,7 @@
 package com.clb.util;
 
-import com.clb.constant.Jwt;
-import io.jsonwebtoken.Claims;
+
+import com.clb.common.constant.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;

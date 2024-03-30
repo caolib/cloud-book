@@ -1,8 +1,12 @@
 package com.clb.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.clb.constant.Common;
-import com.clb.constant.Excep;
+import com.clb.domain.Excep;
+import com.clb.domain.Reader;
 import com.clb.exception.BaseException;
+import com.clb.util.JwtUtils;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -33,13 +37,18 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
 
         String token = exchange.getRequest().getHeaders().getFirst(Common.TOKEN);
         log.debug("token:{}", token);
+        // 如果token为空，拦截请求，返回状态码401
         if (token == null || token.isEmpty()) {
-            // 如果token为空，拦截请求，返回状态码401
             log.debug("null|empty");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
+        // 解析令牌
+        Claims claims = JwtUtils.parseJWT(token);
+        String id = claims.get(Common.ID, String.class);
+        String username = claims.get(Common.USERNAME, String.class);
+        log.debug("id{},username{}", id, username);
 
         try {
             String redisToken = redisTemplate.opsForValue().get(token);
@@ -51,6 +60,16 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
+
+        Reader reader = Reader.builder()
+                .id(id)
+                .username(username)
+                .build();
+
+        // 将令牌解析后的用户信息保存到请求头中，继续传给后面的服务使用
+        exchange.mutate()
+                .request(consumer -> consumer.header("user", JSON.toJSONString(reader)))
+                .build();
 
         return chain.filter(exchange);
     }

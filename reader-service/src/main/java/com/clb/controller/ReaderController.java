@@ -1,11 +1,11 @@
 package com.clb.controller;
 
+import com.clb.common.constant.Cache;
+import com.clb.common.domain.Result;
+import com.clb.common.domain.dto.LoginDto;
+import com.clb.common.domain.entity.Reader;
+import com.clb.common.domain.vo.ReaderVo;
 import com.clb.config.ConfigProperties;
-import com.clb.constant.Cache;
-import com.clb.domain.Result;
-import com.clb.domain.dto.LoginDto;
-import com.clb.domain.entity.Reader;
-import com.clb.domain.vo.ReaderVo;
 import com.clb.service.ReaderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @Validated
 @Slf4j
@@ -33,6 +34,7 @@ public class ReaderController {
     @PostMapping
     @Cacheable(cacheNames = Cache.READER, key = "#condition")
     public Result<List<Reader>> getAllReader(@RequestBody Reader condition) {
+
         log.debug("condition:{}", condition);
 
         return readerService.getAllReader(condition);

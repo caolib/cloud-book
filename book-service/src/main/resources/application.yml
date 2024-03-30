@@ -15,17 +15,7 @@ spring:
   devtools:
     restart:
       additional-exclude: com/clb/util/Advice.class
-  # nacos 配置
-  cloud:
-    nacos:
-      server-addr: localhost:8848
-      discovery:
-        cluster-name: zh
-    loadbalancer:
-      ribbon:
-        enabled: true
-  application:
-    name: book-service
+
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -34,7 +24,8 @@ spring:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 192.168.0.88
+    #    host: 192.168.0.88
+    host: centos
     password: 123456
     port: 6379
     database: 0

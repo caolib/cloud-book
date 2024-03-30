@@ -1,7 +1,7 @@
 package com.clb.util;
 
-import com.clb.constant.Jwt;
-import io.jsonwebtoken.Claims;
+
+import com.clb.common.constant.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +21,13 @@ public class JwtUtils {
      * @param claims JWT第二部分负载 payload 中存储的内容
      */
     public static String generateJwt(Map<String, Object> claims) {
+        Date date = new Date(System.currentTimeMillis() + Jwt.EXPIRE_TIME * 60 * 60 * 1000);
+        log.debug("过期时间:{}", date);
+
         return Jwts.builder()
                 .addClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, Jwt.SIGNKEY)
-                .setExpiration(new Date(System.currentTimeMillis() + Jwt.EXPIRE_TIME))
+                .setExpiration(date)
                 .compact();
-    }
-
-    /**
-     * 解析JWT令牌
-     *
-     * @param jwt JWT令牌
-     * @return JWT第二部分负载 payload 中存储的内容
-     */
-    public static Claims parseJWT(String token) {
-        return Jwts.parser()
-                .setSigningKey(Jwt.SIGNKEY)//指定签名密钥
-                .parseClaimsJws(token)//指定令牌Token
-                .getBody();
     }
 }

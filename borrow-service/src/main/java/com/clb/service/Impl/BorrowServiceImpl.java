@@ -1,56 +1,49 @@
 package com.clb.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.clb.constant.Common;
-import com.clb.constant.Excep;
-import com.clb.domain.Borrow;
-import com.clb.domain.Result;
-import com.clb.domain.vo.BorrowVo;
-import com.clb.mapper.BookMapper;
+import com.clb.clients.BookClient;
+import com.clb.common.domain.Borrow;
+import com.clb.common.domain.Result;
+import com.clb.common.domain.entity.Reader;
+import com.clb.common.domain.vo.BorrowVo;
+import com.clb.common.utils.ThreadLocalUtil;
 import com.clb.mapper.BorrowMapper;
 import com.clb.service.BorrowService;
 import com.clb.util.MyUtils;
-import com.clb.util.ThreadLocalUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class BorrowServiceImpl implements BorrowService {
     private final BorrowMapper borrowMapper;
-    private final BookMapper bookMapper;
+    private final BookClient bookClient;
 
     /**
      * 根据用户id查询借书记录
      */
     @Override
     public Result<List<BorrowVo>> getBorrowByReaderId() {
-        // 从ThreadLocal中获取用户id
-        Map<String, Object> reader = ThreadLocalUtil.get();
+        // 从ThreadLocal中获取用户信息
+        Reader reader = ThreadLocalUtil.get();
         log.debug("用户:{}", reader);
-        Integer readerId = MyUtils.objToInt(reader.get(Common.ID));
 
-        List<BorrowVo> result = borrowMapper.selectByReaderId(readerId);
+        Integer id = Integer.valueOf(reader.getId());
+        List<BorrowVo> result = borrowMapper.selectByReaderId(id);
 
         return Result.success(result);
     }
 
-    /**
-     * 读者借阅图书，向借阅表中插入记录的同时，更新图书的库存量，同时完成
-     * 使用@Transactional让方法以事务方式执行
-     */
-    @Transactional
+
     @Override
     public Result<String> borrow(String isbn, Date dueDate) {
-        Map<String, Object> reader = ThreadLocalUtil.get();
-        String readerId = (String) reader.get(Common.ID);
+        Reader reader = ThreadLocalUtil.get();
+        String readerId = reader.getId();
 
         // 向借阅表中插入借阅记录
         Borrow borrow = Borrow.builder()
@@ -63,23 +56,21 @@ public class BorrowServiceImpl implements BorrowService {
         borrowMapper.insert(borrow);
 
         // 更新图书库存-1
-        bookMapper.updateNumberByIsbn(isbn, -1);
 
-        return Result.success();
+        return bookClient.updateNumByIsbn(isbn, -1);
     }
 
     /**
      * 读者归还图书，向借阅表中插入归还日期，同时更新图书的库存量
-     * 使用@Transactional注解，让方法以事务方式执行，保证两个操作同时完成
      */
-    @Transactional
+
     @Override
     public Result<String> returnBook(Integer id, String isbn) {
+
         //更新借阅表中信息
         borrowMapper.updateReturnDateById(id, MyUtils.now());
         //同时更新图书库存+1
-        bookMapper.updateNumberByIsbn(isbn, 1);
-
+        bookClient.updateNumByIsbn(isbn, 1);
         return Result.success();
     }
 
@@ -99,14 +90,6 @@ public class BorrowServiceImpl implements BorrowService {
         return Result.success();
     }
 
-    @Override
-    public Result<List<BorrowVo>> getBorrowByReaderIdII(Integer id) {
-        if (id != null) {
-            List<BorrowVo> result = borrowMapper.selectByReaderId(id);
-            return Result.success(result);
-        }
-        return Result.error(Excep.READER_ID_IS_NULL);
-    }
 
     @Override
     public List<Borrow> getBorrowByIsbn(String isbn) {

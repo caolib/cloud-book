@@ -2,11 +2,12 @@ package com.clb.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.clb.constant.Cache;
-import com.clb.domain.PageResult;
-import com.clb.domain.Result;
-import com.clb.domain.dto.Condition;
-import com.clb.domain.entity.Book;
+import com.clb.common.constant.Cache;
+import com.clb.common.domain.PageResult;
+import com.clb.common.domain.Result;
+import com.clb.common.domain.dto.Condition;
+import com.clb.common.domain.entity.Book;
+import com.clb.mapper.BookMapper;
 import com.clb.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import java.util.List;
 @Validated
 public class BookController {
     private final BookService bookService;
+    private final BookMapper bookMapper;
 
     /**
      * 书籍信息的分页查询
@@ -82,5 +84,11 @@ public class BookController {
         log.debug("book:{}", book);
 
         return bookService.updateBook(book);
+    }
+
+    @PutMapping("/{isbn}/{num}")
+    Result<String> updateNumByIsbn(@PathVariable String isbn, @PathVariable Integer num) {
+        bookMapper.updateNumberByIsbn(isbn, num);
+        return Result.success();
     }
 }

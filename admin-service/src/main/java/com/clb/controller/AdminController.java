@@ -1,9 +1,10 @@
 package com.clb.controller;
 
-import com.clb.domain.Result;
-import com.clb.domain.dto.LoginDto;
-import com.clb.domain.entity.Admin;
-import com.clb.domain.vo.AdminVo;
+
+import com.clb.common.domain.Result;
+import com.clb.common.domain.dto.LoginDto;
+import com.clb.common.domain.entity.Admin;
+import com.clb.common.domain.vo.AdminVo;
 import com.clb.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

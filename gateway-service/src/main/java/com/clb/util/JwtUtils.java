@@ -1,6 +1,7 @@
 package com.clb.util;
 
-import com.clb.constant.Jwt;
+
+import com.clb.domain.Jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
