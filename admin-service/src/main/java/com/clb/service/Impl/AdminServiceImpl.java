@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -53,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
-        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME);
+        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.HOURS);
 
         // 封装信息
         AdminVo adminVo = new AdminVo();

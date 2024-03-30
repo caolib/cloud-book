@@ -2,6 +2,7 @@ package com.clb.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.clb.clients.BorrowClient;
 import com.clb.constant.Excep;
 import com.clb.domain.Borrow;
 import com.clb.domain.Result;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
+    private final BorrowClient borrowClient;
 
     @Override
     public Page<Book> getBookPage(Condition condition) {
@@ -45,18 +47,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBookByIsbn(String isbn) {
-        //todo clients待完成
+        // 先查询借阅表中是否有记录，有记录就不允许删除
+        List<Borrow> borrows = borrowClient.getBorrowByIsbn(isbn);
+        if (!borrows.isEmpty()) {
+            throw new AlreadyExistException(Excep.DELETE_BOOK_NOT_ALLOW);
+        }
 
-        //// 查找借阅表中是否有该书籍信息
-        //LambdaQueryWrapper<Borrow> queryWrapper = new LambdaQueryWrapper<>();
-        //queryWrapper.eq(Borrow::getIsbn, isbn);
-        //List<Borrow> borrows = borrowMapper.selectList(queryWrapper);
-        //// 如果书籍信息存在于借阅表中，抛出业务异常，不允许删除
-        //if (!borrows.isEmpty()) {
-        //    throw new AlreadyExistException(Excep.DELETE_BOOK_NOT_ALLOW);
-        //}
-        //
-        //bookMapper.deleteById(isbn);
+        bookMapper.deleteById(isbn);
     }
 
     @Override

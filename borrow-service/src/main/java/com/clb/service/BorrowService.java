@@ -1,5 +1,6 @@
 package com.clb.service;
 
+import com.clb.domain.Borrow;
 import com.clb.domain.Result;
 import com.clb.domain.vo.BorrowVo;
 
@@ -20,4 +21,6 @@ public interface BorrowService {
     Result<String> deleteBatchByIds(List<Integer> ids);
 
     Result<List<BorrowVo>> getBorrowByReaderIdII(Integer id);
+
+    List<Borrow> getBorrowByIsbn(String isbn);
 }

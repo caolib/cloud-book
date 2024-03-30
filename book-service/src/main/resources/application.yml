@@ -11,7 +11,7 @@ mybatis-plus:
 
 spring:
   profiles:
-    active: dev # 可切换为pro,需要修改pro.yml文件相关配置
+    active: dev
   devtools:
     restart:
       additional-exclude: com/clb/util/Advice.class
@@ -19,6 +19,11 @@ spring:
   cloud:
     nacos:
       server-addr: localhost:8848
+      discovery:
+        cluster-name: zh
+    loadbalancer:
+      ribbon:
+        enabled: true
   application:
     name: book-service
   # mysql
@@ -40,3 +45,10 @@ logging:
     root: info
   pattern:
     dateformat: "yy/MM-dd HH:mm:ss.SSS"
+
+feign:
+  okhttp:
+    enabled: true
+ribbon:
+  okhttp:
+    enabled: true

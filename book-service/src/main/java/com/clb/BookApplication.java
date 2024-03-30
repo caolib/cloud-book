@@ -6,7 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@EnableCaching
+@EnableCaching
 @SpringBootApplication
 @EnableFeignClients
 @EnableTransactionManagement

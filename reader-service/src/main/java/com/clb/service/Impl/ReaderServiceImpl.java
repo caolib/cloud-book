@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class ReaderServiceImpl implements ReaderService {
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
-        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME);
+        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.HOURS);
 
         // 封装信息并返回
         ReaderVo readerVo = new ReaderVo();

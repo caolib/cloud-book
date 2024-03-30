@@ -17,6 +17,8 @@ spring:
   cloud:
     nacos:
       server-addr: localhost:8848
+      discovery:
+        cluster-name: zh
   application:
     name: admin-service
   # mysql

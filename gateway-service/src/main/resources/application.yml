@@ -4,36 +4,51 @@ server:
 spring:
   # nacos配置
   cloud:
-    nacos:
-      server-addr: localhost:8848
     gateway:
       routes:
-        - id: reader_service
+        - id: reader_route
           uri: lb://reader-service
           predicates:
             - Path=/reader/**
 
-        - id: book_service
+        - id: book_route
           uri: lb://book-service
           predicates:
             - Path=/book/**
 
-        - id: borrow_service
+        - id: borrow_route
           uri: lb://borrow-service
           predicates:
             - Path=/borrow/**
 
-        - id: admin_service
+        - id: admin_route
           uri: lb://admin-service
           predicates:
             - Path=/admin/**
-  application:
-    name: gateway-service
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*" # 允许哪些网站的跨域请求
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
+    sentinel:
+      transport:
+        dashboard: localhost:8079 # sentinel控制台地址
+
   redis:
     host: 192.168.0.88
     password: 123456
     port: 6379
     database: 0
+
 
 # 日志
 logging:

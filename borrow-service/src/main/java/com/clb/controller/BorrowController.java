@@ -2,6 +2,7 @@ package com.clb.controller;
 
 import com.clb.constant.Cache;
 import com.clb.constant.Excep;
+import com.clb.domain.Borrow;
 import com.clb.domain.Result;
 import com.clb.domain.vo.BorrowVo;
 import com.clb.exception.BaseException;
@@ -96,6 +97,11 @@ public class BorrowController {
         log.info("ids:{}", ids);
 
         return borrowService.deleteBatchByIds(ids);
+    }
+
+    @GetMapping("/isbn/{isbn}")
+    public List<Borrow> getBorrowByIsbn(@PathVariable String isbn) {
+        return borrowService.getBorrowByIsbn(isbn);
     }
 
 }

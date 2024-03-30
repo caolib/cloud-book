@@ -4,6 +4,7 @@ package com.clb.constant;
  * 异常相关枚举字段
  */
 public class Excep {
+    public static final String READER_ID_IS_NULL = "读者id为空！";
     public static final String UNKNOWN_ERROR = "未知的错误...";
     public static final String DELETE_BOOK_NOT_ALLOW = "借阅记录中存在该书籍信息，不允许删除！";
     public static final String DELETE_READER_NOT_ALLOW = "借阅记录中存在用户信息，不允许删除！";
