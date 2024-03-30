@@ -2,7 +2,7 @@ server:
   port: 10086
 
 spring:
-  # nacos 配置
+  # nacos配置
   cloud:
     nacos:
       server-addr: localhost:8848
