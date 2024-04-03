@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient("borrow-service")
+@FeignClient("ms-borrow")
 @RequestMapping("/borrow")
 public interface BorrowClient {
     @GetMapping("/isbn/{isbn}")

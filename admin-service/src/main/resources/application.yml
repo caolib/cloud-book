@@ -20,7 +20,7 @@ spring:
       discovery:
         cluster-name: zh
   application:
-    name: admin-service
+    name: ms-admin
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

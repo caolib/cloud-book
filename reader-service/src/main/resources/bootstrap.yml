@@ -1,15 +1,15 @@
 spring:
   application:
-    name: reader-service
+    name: ms-reader
   profiles:
     active: dev
   cloud:
     nacos:
-      server-addr: localhost:8848
+      server-addr: bin:8848
       config:
         file-extension: yml # 文件后缀名
       discovery:
-        ephemeral: false
+        ephemeral: true
 #      discovery:
 #        cluster-name: zh
 #        weight: 1 # 权重

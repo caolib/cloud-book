@@ -8,22 +8,22 @@ spring:
     gateway:
       routes:
         - id: reader_route
-          uri: lb://reader-service
+          uri: lb://ms-reader
           predicates:
             - Path=/reader/**
 
         - id: book_route
-          uri: lb://book-service
+          uri: lb://ms-book
           predicates:
             - Path=/book/**
 
         - id: borrow_route
-          uri: lb://borrow-service
+          uri: lb://ms-borrow
           predicates:
             - Path=/borrow/**
 
         - id: admin_route
-          uri: lb://admin-service
+          uri: lb://ms-admin
           predicates:
             - Path=/admin/**
       globalcors: # 全局的跨域处理
@@ -54,7 +54,7 @@ spring:
 
   devtools:
     restart:
-      enabled: false
+      enabled: true
 
 
 
