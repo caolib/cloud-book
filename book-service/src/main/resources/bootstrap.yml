@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       #      server-addr: localhost:8848
-      server-addr: bin:8848
+      server-addr: localhost:8848
   #      discovery:
   #        cluster-name: zh
   #    loadbalancer:

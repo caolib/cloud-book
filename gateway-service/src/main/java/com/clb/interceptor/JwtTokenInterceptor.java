@@ -46,7 +46,8 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         Claims claims = JwtUtils.parseJWT(token);
         String id = claims.get(Common.ID, String.class);
         String username = claims.get(Common.USERNAME, String.class);
-        //log.debug("id:{},username:{}", id, username);
+        String isAdmin = claims.get(Common.ISADMIN, String.class);
+        log.debug("id:{},username:{},isadmin:{}", id, username, isAdmin);
 
         try {
             String redisToken = redisTemplate.opsForValue().get(token);

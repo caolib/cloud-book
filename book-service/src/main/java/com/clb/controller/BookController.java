@@ -86,6 +86,12 @@ public class BookController {
         return bookService.updateBook(book);
     }
 
+    /**
+     * 根据isbn更新图书库存
+     *
+     * @param isbn 书号
+     * @param num  库存量
+     */
     @PutMapping("/{isbn}/{num}")
     Result<String> updateNumByIsbn(@PathVariable String isbn, @PathVariable Integer num) {
         bookMapper.updateNumberByIsbn(isbn, num);

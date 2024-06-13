@@ -60,6 +60,25 @@ public class BorrowServiceImpl implements BorrowService {
         return bookClient.updateNumByIsbn(isbn, -1);
     }
 
+    @Override
+    public Result<String> borrow2(String isbn, Date borrow, Date due) {
+        Reader reader = ThreadLocalUtil.get();
+        String readerId = reader.getId();
+
+        // 向借阅表中插入借阅记录
+        Borrow b = Borrow.builder()
+                .isbn(isbn)
+                .borrowDate(borrow)
+                .dueDate(due)
+                .readerId(readerId)
+                .build();
+
+        borrowMapper.insert(b);
+
+        // 更新图书库存-1
+        return bookClient.updateNumByIsbn(isbn, -1);
+    }
+
     /**
      * 读者归还图书，向借阅表中插入归还日期，同时更新图书的库存量
      */
@@ -97,4 +116,6 @@ public class BorrowServiceImpl implements BorrowService {
         queryWrapper.eq(Borrow::getIsbn, isbn);
         return borrowMapper.selectList(queryWrapper);
     }
+
+
 }

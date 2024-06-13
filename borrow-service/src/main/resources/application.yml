@@ -13,7 +13,7 @@ spring:
   devtools:
     restart:
       additional-exclude: com/clb/util/Advice.class
-      enabled: false
+      enabled: true
 
   # mysql
   datasource:
@@ -23,7 +23,6 @@ spring:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    #    host: 192.168.0.88
     host: centos
     password: 123456
     port: 6379

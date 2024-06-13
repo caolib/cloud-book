@@ -3,10 +3,8 @@ spring:
     active: dev
   cloud:
     nacos:
-      server-addr: bin:8848
+      server-addr: localhost:8848
       config:
         file-extension: yml # 文件后缀名
-      discovery:
-        ephemeral: true
   application:
     name: ms-gateway

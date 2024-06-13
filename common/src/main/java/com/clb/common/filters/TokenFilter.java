@@ -22,7 +22,7 @@ public class TokenFilter implements HandlerInterceptor {
 
         String user = request.getHeader("user");
         Reader reader = JSON.parseObject(user, Reader.class);
-        log.debug("reader{}", reader);
+        log.debug("reader:{}", reader);
 
         // 保存到ThreadLocal
         ThreadLocalUtil.set(reader);

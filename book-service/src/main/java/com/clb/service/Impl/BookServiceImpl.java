@@ -52,6 +52,7 @@ public class BookServiceImpl implements BookService {
         List<Borrow> borrows = borrowClient.getBorrowByIsbn(isbn);
         if (!borrows.isEmpty()) {
             throw new AlreadyExistException(Excep.DELETE_BOOK_NOT_ALLOW);
+            //return Result.error(Excep.DELETE_BOOK_NOT_ALLOW);
         }
 
         bookMapper.deleteById(isbn);

@@ -3,13 +3,12 @@ spring:
     active: dev
   cloud:
     nacos:
-      #      server-addr: localhost:8848
-      server-addr: bin:8848
-      discovery:
-        ephemeral: true
-        heart-beat-timeout: 10000
+      server-addr: localhost:8848
+    #      discovery:
+    #        heart-beat-timeout: 10000
+    #        weight: 2
     loadbalancer:
-      cache:
+      ribbon:
         enabled: false
   application:
     name: ms-borrow

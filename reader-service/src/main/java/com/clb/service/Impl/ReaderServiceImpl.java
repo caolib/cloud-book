@@ -8,7 +8,6 @@ import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.LoginDto;
 import com.clb.common.domain.entity.Reader;
 import com.clb.common.domain.vo.ReaderVo;
-import com.clb.common.exception.AlreadyExistException;
 import com.clb.common.exception.BaseException;
 import com.clb.mapper.ReaderMapper;
 import com.clb.service.ReaderService;
@@ -49,6 +48,7 @@ public class ReaderServiceImpl implements ReaderService {
         Map<String, Object> claims = new HashMap<>();
         claims.put(Common.ID, r.getId());
         claims.put(Common.USERNAME, reader.getUsername());
+        claims.put(Common.ISADMIN, Common.READER);
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
@@ -77,7 +77,8 @@ public class ReaderServiceImpl implements ReaderService {
 
         // 用户名，密码，电话都不能空
         if (!MyUtils.StrUtil(username) || !MyUtils.StrUtil(reader.getPassword()) || !MyUtils.StrUtil(tel)) {
-            throw new BaseException(Excep.REGISTER_ERROR);
+            //throw new BaseException(Excep.REGISTER_ERROR);
+            return Result.error(Excep.REGISTER_ERROR);
         }
 
         // 查询用户名是否存在
@@ -85,7 +86,7 @@ public class ReaderServiceImpl implements ReaderService {
         wrapper.eq(Reader::getUsername, username);
         Long l = readerMapper.selectCount(wrapper);
         if (l != 0) {
-            throw new AlreadyExistException(Excep.USER_ALREADY_EXIST);
+            return Result.error(Excep.USER_ALREADY_EXIST);
         }
 
         //查询电话是否存在
@@ -93,7 +94,8 @@ public class ReaderServiceImpl implements ReaderService {
         wrapper.eq(Reader::getTel, tel);
         l = readerMapper.selectCount(wrapper);
         if (l != 0) {
-            throw new AlreadyExistException(Excep.TEL_ALREADY_EXIST);
+            //throw new AlreadyExistException(Excep.TEL_ALREADY_EXIST);
+            return Result.error(Excep.TEL_ALREADY_EXIST);
         }
 
         readerMapper.register(reader);

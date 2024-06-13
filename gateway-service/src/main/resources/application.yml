@@ -3,9 +3,9 @@ server:
 
 
 spring:
-  # nacos配置
   cloud:
     gateway:
+      # 路由配置
       routes:
         - id: reader_route
           uri: lb://ms-reader
@@ -40,21 +40,21 @@ spring:
             allowedHeaders: "*" # 允许在请求中携带的头信息
             allowCredentials: true # 是否允许携带cookie
             maxAge: 360000 # 这次跨域检测的有效期
-    sentinel:
-      transport:
-        dashboard: localhost:8079 # sentinel控制台地址
+  #    sentinel:
+  #      transport:
+  #        dashboard: localhost:8079 # sentinel控制台地址
 
 
   redis:
-    #    host: 192.168.0.88
     host: centos
     password: 123456
     port: 6379
     database: 0
 
+  # 热重载
   devtools:
     restart:
-      enabled: true
+      enabled: false
 
 
 

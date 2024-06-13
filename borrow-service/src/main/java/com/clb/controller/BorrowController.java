@@ -54,9 +54,31 @@ public class BorrowController {
     }
 
     /**
+     * 用户借阅图书
+     *
+     * @param isbn    书号
+     * @param dueDate 应归还日期
+     */
+    @GetMapping("/borrow2")
+    @CacheEvict(value = Cache.BOOK_PAGE, allEntries = true)
+    public Result<String> borrow(String isbn, String borrowDate, String dueDate) {
+        log.info("书号:{} 借阅日期:{} 归还日期:{}", isbn, borrowDate, dueDate);
+
+        if (!MyUtils.StrUtil(dueDate) && !MyUtils.StrUtil(borrowDate)) {
+            throw new BaseException(Excep.RETURN_DATE_IS_NULL);
+        }
+
+        Date due = MyUtils.StrToDate(dueDate);
+        Date borrow = MyUtils.StrToDate(borrowDate);
+        //return borrowService.borrow(isbn, date);
+        return borrowService.borrow2(isbn, borrow, due);
+    }
+
+    /**
      * 归还书籍
      *
      * @param id 借阅号
+     * @param isbn 书号
      */
     @GetMapping("/returnBook")
     @CacheEvict(value = Cache.BOOK_PAGE, allEntries = true)
