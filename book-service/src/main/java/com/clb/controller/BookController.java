@@ -7,6 +7,7 @@ import com.clb.common.domain.PageResult;
 import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.Condition;
 import com.clb.common.domain.entity.Book;
+import com.clb.common.exception.BaseException;
 import com.clb.mapper.BookMapper;
 import com.clb.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -93,8 +94,13 @@ public class BookController {
      * @param num  库存量
      */
     @PutMapping("/{isbn}/{num}")
-    Result<String> updateNumByIsbn(@PathVariable String isbn, @PathVariable Integer num) {
+    public Result<String> updateNumByIsbn(@PathVariable String isbn, @PathVariable Integer num) {
         bookMapper.updateNumberByIsbn(isbn, num);
         return Result.success();
+    }
+
+    @GetMapping("/test")
+    public Result<String> testException() {
+        throw new BaseException("测试异常");
     }
 }

@@ -52,7 +52,7 @@ public class ReaderServiceImpl implements ReaderService {
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
-        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.MILLISECONDS);
 
         // 封装信息并返回
         ReaderVo readerVo = new ReaderVo();

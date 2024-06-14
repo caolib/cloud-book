@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
-        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.MILLISECONDS);
 
         // 封装信息
         AdminVo adminVo = new AdminVo();

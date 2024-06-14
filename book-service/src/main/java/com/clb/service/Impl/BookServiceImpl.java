@@ -51,7 +51,7 @@ public class BookServiceImpl implements BookService {
         // 先查询借阅表中是否有记录，有记录就不允许删除
         List<Borrow> borrows = borrowClient.getBorrowByIsbn(isbn);
         if (!borrows.isEmpty()) {
-            throw new AlreadyExistException(Excep.DELETE_BOOK_NOT_ALLOW);
+            throw new RuntimeException(Excep.DELETE_BOOK_NOT_ALLOW);
             //return Result.error(Excep.DELETE_BOOK_NOT_ALLOW);
         }
 

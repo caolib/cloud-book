@@ -44,7 +44,6 @@ spring:
   #      transport:
   #        dashboard: localhost:8079 # sentinel控制台地址
 
-
   redis:
     host: centos
     password: 123456
