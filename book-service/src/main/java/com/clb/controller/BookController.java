@@ -7,7 +7,6 @@ import com.clb.common.domain.PageResult;
 import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.Condition;
 import com.clb.common.domain.entity.Book;
-import com.clb.common.exception.BaseException;
 import com.clb.mapper.BookMapper;
 import com.clb.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -57,8 +56,7 @@ public class BookController {
     public Result<String> deleteBookByIsbn(@PathVariable @Pattern(regexp = "^\\S{1,20}$") String isbn) {
         log.debug("isbn:{}", isbn);
 
-        bookService.deleteBookByIsbn(isbn);
-        return Result.success();
+        return bookService.deleteBookByIsbn(isbn);
     }
 
     /**
@@ -69,7 +67,7 @@ public class BookController {
     @PostMapping("/add")
     @CacheEvict(value = Cache.BOOK_PAGE, allEntries = true)
     public Result<String> addBook(@RequestBody Book book) {
-        log.debug("book:{}", book);
+        log.debug("add-book:{}", book);
 
         return bookService.add(book);
     }
@@ -82,7 +80,7 @@ public class BookController {
     @PutMapping
     @CacheEvict(value = Cache.BOOK_PAGE, allEntries = true)
     public Result<String> updateBook(@RequestBody Book book) {
-        log.debug("book:{}", book);
+        log.debug("update-book:{}", book);
 
         return bookService.updateBook(book);
     }
@@ -97,10 +95,5 @@ public class BookController {
     public Result<String> updateNumByIsbn(@PathVariable String isbn, @PathVariable Integer num) {
         bookMapper.updateNumberByIsbn(isbn, num);
         return Result.success();
-    }
-
-    @GetMapping("/test")
-    public Result<String> testException() {
-        throw new BaseException("测试异常");
     }
 }

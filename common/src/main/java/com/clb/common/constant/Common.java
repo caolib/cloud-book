@@ -7,9 +7,9 @@ public class Common {
     public static final String TOKEN = "token";
     public static final String ID = "id";
     public static final String USERNAME = "username";
-    public static final String TODO = "功能待完成...";
-    public static final String ISADMIN = "是否为管理员";
-    public static final String READER = "reader";
-    public static final String ADMIN = "admin";
+    public static final String ISADMIN = "is";
+    public static final String READER = "读者";
+    public static final String ADMIN = "管理员";
+    public static final String IDENTITY = "identity";
 
 }

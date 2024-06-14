@@ -9,7 +9,7 @@ import com.clb.common.domain.entity.Book;
 public interface BookService {
     Page<Book> getBookPage(Condition condition);
 
-    void deleteBookByIsbn(String isbn);
+    Result<String> deleteBookByIsbn(String isbn);
 
     Result<String> add(Book book);
 

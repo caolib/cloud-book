@@ -1,31 +1,17 @@
 package com.clb.common.handle;
 
 
-import com.clb.common.constant.Excep;
-import com.clb.common.domain.Result;
-import com.clb.common.exception.AlreadyExistException;
-import com.clb.common.exception.BaseException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.lettuce.core.RedisCommandExecutionException;
-import io.lettuce.core.RedisConnectionException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.RedisConnectionFailureException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.net.SocketException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * 全局异常处理器，处理项目中抛出的业务异常
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    /**
+ /*   *//**
      * 捕获业务异常
-     */
+     *//*
     @ExceptionHandler(BaseException.class)
     public Result<String> exceptionHandler(BaseException ex) {
         log.error("异常：{}", ex.getMessage());
@@ -44,9 +30,9 @@ public class GlobalExceptionHandler {
         return Result.error(ex.getMessage());
     }
 
-    /**
+    *//**
      * 完整性约束冲突异常
-     */
+     *//*
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public Result<String> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
         String message = ex.getMessage();
@@ -64,9 +50,9 @@ public class GlobalExceptionHandler {
     }
 
 
-    /**
+    *//**
      * redis未开启可能导致的异常
-     */
+     *//*
     @ExceptionHandler({SocketException.class, RedisConnectionFailureException.class, RedisConnectionException.class})
     public Result<String> exceptionHandler(SocketException socketException) {
         String message = socketException.getMessage();
@@ -102,5 +88,5 @@ public class GlobalExceptionHandler {
         log.error(Excep.ARG_NOT_VALID + "{}", e.getMessage());
         return Result.error(Excep.ARG_NOT_VALID);
     }
-
+*/
 }

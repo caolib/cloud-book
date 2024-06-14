@@ -26,9 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class ReaderServiceImpl implements ReaderService {
-
     private final ReaderMapper readerMapper;
-
     private final StringRedisTemplate redisTemplate;
 
     @Override
@@ -48,7 +46,7 @@ public class ReaderServiceImpl implements ReaderService {
         Map<String, Object> claims = new HashMap<>();
         claims.put(Common.ID, r.getId());
         claims.put(Common.USERNAME, reader.getUsername());
-        claims.put(Common.ISADMIN, Common.READER);
+        claims.put(Common.IDENTITY, Common.READER);
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
@@ -77,8 +75,8 @@ public class ReaderServiceImpl implements ReaderService {
 
         // 用户名，密码，电话都不能空
         if (!MyUtils.StrUtil(username) || !MyUtils.StrUtil(reader.getPassword()) || !MyUtils.StrUtil(tel)) {
-            //throw new BaseException(Excep.REGISTER_ERROR);
-            return Result.error(Excep.REGISTER_ERROR);
+            throw new RuntimeException(Excep.REGISTER_ERROR);
+            //return Result.error(Excep.REGISTER_ERROR);
         }
 
         // 查询用户名是否存在

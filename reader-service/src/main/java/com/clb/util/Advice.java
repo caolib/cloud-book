@@ -2,12 +2,12 @@ package com.clb.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.springframework.stereotype.Component;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Pointcut;
 
-@Component
 @Slf4j
-@Aspect
+//@Component
+//@Aspect
 public class Advice {
     //匹配controller、service和mapper包下所有方法,返回值任意
     @Pointcut("execution(* com.clb.service.*.*(..))" +
