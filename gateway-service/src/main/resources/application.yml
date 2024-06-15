@@ -49,6 +49,7 @@ spring:
     password: 123456
     port: 6379
     database: 0
+    timeout: 8000
 
   # 热重载
   devtools:

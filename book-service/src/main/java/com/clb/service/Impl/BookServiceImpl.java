@@ -36,15 +36,23 @@ public class BookServiceImpl implements BookService {
 
         LambdaQueryWrapper<Book> queryWrapper = new LambdaQueryWrapper<>();
         // 根据搜索条件查询
-        queryWrapper.eq(MyUtils.StrUtil(isbn), Book::getIsbn, isbn)
-                .like(MyUtils.StrUtil(bookName), Book::getTitle, bookName)
-                .like(MyUtils.StrUtil(author), Book::getAuthor, author);
+        queryWrapper.eq(MyUtils.notNull(isbn), Book::getIsbn, isbn)
+                .like(MyUtils.notNull(bookName), Book::getTitle, bookName)
+                .like(MyUtils.notNull(author), Book::getAuthor, author);
         // 分页查询
         return bookMapper.selectPage(new Page<>(currentPage, pageSize), queryWrapper);
     }
 
     @Override
     public Result<String> deleteBookByIsbn(String isbn) {
+        // 查询isbn是否存在
+        Book book = bookMapper.selectById(isbn);
+        if (book == null) {
+            String msg = Excep.ISBN_NOT_EXIST;
+            log.error(msg);
+            return Result.error(msg);
+        }
+
         // 先查询借阅表中是否有记录，有记录就不允许删除
         List<Borrow> borrows = borrowClient.getBorrowByIsbn(isbn);
         if (!borrows.isEmpty()) {
@@ -63,13 +71,13 @@ public class BookServiceImpl implements BookService {
         String title = book.getTitle();
         Integer number = book.getNumber();
         //isbn不能为空
-        if (!MyUtils.StrUtil(isbn)) {
+        if (!MyUtils.notNull(isbn)) {
             String msg = Excep.ISBN_IS_NULL;
             log.error(msg);
             return Result.error(msg);
         }
         //书名不能为空
-        if (!MyUtils.StrUtil(title)) {
+        if (!MyUtils.notNull(title)) {
             String msg = Excep.TITLE_IS_NULL;
             log.error(msg);
             return Result.error(msg);

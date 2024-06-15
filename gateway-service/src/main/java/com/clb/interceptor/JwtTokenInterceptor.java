@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.clb.constant.Common;
 import com.clb.domain.Excep;
 import com.clb.domain.Reader;
-import com.clb.exception.BaseException;
+import com.clb.exception.TokenException;
 import com.clb.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -53,10 +53,11 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             String redisToken = redisTemplate.opsForValue().get(token);
             // 如果redis中没有对应的key，抛出异常
             if (redisToken == null) {
-                throw new BaseException(Excep.TOKEN_ALREADY_EXPIRED);
+                throw new TokenException(Excep.TOKEN_ALREADY_EXPIRED);
             }
         } catch (Exception e) {
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            // 身份过期
+            exchange.getResponse().setRawStatusCode(499);
             return exchange.getResponse().setComplete();
         }
 

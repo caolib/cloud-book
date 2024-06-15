@@ -55,8 +55,7 @@ public class BorrowServiceImpl implements BorrowService {
 
         borrowMapper.insert(borrow);
 
-        // 更新图书库存-1
-
+        // 书籍库存-1
         return bookClient.updateNumByIsbn(isbn, -1);
     }
 

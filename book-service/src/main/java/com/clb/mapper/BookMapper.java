@@ -10,9 +10,6 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface BookMapper extends BaseMapper<Book> {
-    @Select("SELECT title FROM book WHERE ISBN = #{isbn}")
-    String getTitleByIsbn(String isbn);
-
     @Update("UPDATE book SET number = number + #{num} WHERE ISBN = #{isbn}")
     void updateNumberByIsbn(String isbn, Integer num);
 
