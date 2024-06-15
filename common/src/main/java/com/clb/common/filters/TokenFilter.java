@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @ConditionalOnClass(DispatcherServlet.class)
 public class TokenFilter implements HandlerInterceptor {
     @Override
-    public boolean preHandle(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         String user = request.getHeader("user");
         Reader reader = JSON.parseObject(user, Reader.class);

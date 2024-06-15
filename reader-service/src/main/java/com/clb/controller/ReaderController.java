@@ -5,6 +5,7 @@ import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.LoginDto;
 import com.clb.common.domain.entity.Reader;
 import com.clb.common.domain.vo.ReaderVo;
+import com.clb.common.utils.ThreadLocalUtil;
 import com.clb.config.ConfigProperties;
 import com.clb.service.ReaderService;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,9 @@ public class ReaderController {
     @CacheEvict(value = Cache.READER, allEntries = true)
     public Result<String> deleteById(@PathVariable Integer id) {
         log.debug("id:{}", id);
+
+        ThreadLocalUtil.get();
+
 
         return readerService.deleteById(id);
     }

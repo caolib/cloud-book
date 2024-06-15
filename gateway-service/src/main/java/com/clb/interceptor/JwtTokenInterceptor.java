@@ -37,18 +37,12 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         log.debug("token:{}", token);
         // 如果token为空，拦截请求，返回状态码401
         if (token == null || token.isEmpty()) {
-            log.debug("null|empty");
+            log.error("token为空");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        // 解析令牌
-        Claims claims = JwtUtils.parseJWT(token);
-        String id = claims.get(Common.ID, String.class);
-        String username = claims.get(Common.USERNAME, String.class);
-        String isAdmin = claims.get(Common.ISADMIN, String.class);
-        log.debug("id:{},username:{},isadmin:{}", id, username, isAdmin);
-
+        // 校验token是否过期
         try {
             String redisToken = redisTemplate.opsForValue().get(token);
             // 如果redis中没有对应的key，抛出异常
@@ -61,15 +55,17 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        Reader reader = Reader.builder()
-                .id(id)
-                .username(username)
-                .build();
+        // 解析令牌
+        Claims claims = JwtUtils.parseJWT(token);
+        String id = claims.get(Common.ID, String.class);
+        String username = claims.get(Common.USERNAME, String.class);
+        String identity = claims.get(Common.IDENTITY, String.class);
+        log.debug("id:{},username:{},identity:{}", id, username, identity);
+
+        Reader reader = Reader.builder().id(id).username(username).build();
 
         // 将令牌解析后的用户信息保存到请求头中，继续传给后面的服务使用
-        exchange.mutate()
-                .request(consumer -> consumer.header("user", JSON.toJSONString(reader)))
-                .build();
+        exchange.mutate().request(consumer -> consumer.header("user", JSON.toJSONString(reader))).build();
 
         return chain.filter(exchange);
     }

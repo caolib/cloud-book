@@ -11,4 +11,5 @@ public class Common {
     public static final String ISADMIN = "是否为管理员";
     public static final String READER = "reader";
     public static final String ADMIN = "admin";
+    public static final String IDENTITY = "identity";
 }
