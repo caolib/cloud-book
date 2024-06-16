@@ -61,7 +61,6 @@ public class GlobalExceptionHandler {
             log.error("删除失败:{}", errorMsg);
             return Result.error(errorMsg);
         }
-
         log.error("未知异常:{}", msg);
         return Result.error("未知异常!");
     }

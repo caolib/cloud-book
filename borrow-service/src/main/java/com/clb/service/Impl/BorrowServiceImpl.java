@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.clb.clients.BookClient;
 import com.clb.common.domain.Borrow;
 import com.clb.common.domain.Result;
-import com.clb.common.domain.entity.Reader;
+import com.clb.common.domain.dto.UserDto;
 import com.clb.common.domain.vo.BorrowVo;
 import com.clb.common.utils.ThreadLocalUtil;
 import com.clb.mapper.BorrowMapper;
@@ -29,11 +29,10 @@ public class BorrowServiceImpl implements BorrowService {
      */
     @Override
     public Result<List<BorrowVo>> getBorrowByReaderId() {
-        // 从ThreadLocal中获取用户信息
-        Reader reader = ThreadLocalUtil.get();
-        log.debug("用户:{}", reader);
+        // 管理员没有借阅记录
+        UserDto user = ThreadLocalUtil.get();
 
-        Integer id = Integer.valueOf(reader.getId());
+        Integer id = Integer.valueOf(user.getId());
         List<BorrowVo> result = borrowMapper.selectByReaderId(id);
 
         return Result.success(result);
@@ -42,7 +41,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public Result<String> borrow(String isbn, Date dueDate) {
-        Reader reader = ThreadLocalUtil.get();
+        UserDto reader = ThreadLocalUtil.get();
         String readerId = reader.getId();
 
         // 向借阅表中插入借阅记录
@@ -61,7 +60,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public Result<String> borrow2(String isbn, Date borrow, Date due) {
-        Reader reader = ThreadLocalUtil.get();
+        UserDto reader = ThreadLocalUtil.get();
         String readerId = reader.getId();
 
         // 向借阅表中插入借阅记录

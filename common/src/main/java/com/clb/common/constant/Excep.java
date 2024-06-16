@@ -25,5 +25,5 @@ public class Excep {
     public static final String BOOK_NUMBER_ERROR = "书本库存量只能为非负数！";
     public static final String ARG_NOT_VALID = "方法参数非法！";
     public static final String ARG_TYPE_ILLEGAL = "参数类型非法！";
-
+    public static final String IDENTITY = "身份非法！";
 }

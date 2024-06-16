@@ -46,7 +46,7 @@ public class ReaderServiceImpl implements ReaderService {
         //生成令牌,在有效载荷中存储用户名和id
         Map<String, Object> claims = new HashMap<>();
         claims.put(Common.ID, r.getId());
-        claims.put(Common.USERNAME, reader.getUsername());
+        claims.put(Common.USERNAME, r.getUsername());
         claims.put(Common.IDENTITY, Common.READER);
         String token = JwtUtils.generateJwt(claims);
 
@@ -63,6 +63,14 @@ public class ReaderServiceImpl implements ReaderService {
 
     @Override
     public Result<Reader> updateReader(Reader reader) {
+        LambdaQueryWrapper<Reader> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Reader::getTel, reader.getTel());
+        // 查询用户电话是否存在
+        Long l = readerMapper.selectCount(wrapper);
+        if (l > 0) {
+            return Result.error(Excep.TEL_ALREADY_EXIST);
+        }
+
         readerMapper.updateById(reader);
 
         return Result.success();

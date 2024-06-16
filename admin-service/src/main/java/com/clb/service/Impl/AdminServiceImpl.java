@@ -48,8 +48,9 @@ public class AdminServiceImpl implements AdminService {
 
         //生成令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", admin.getUsername());
-        claims.put(Common.IDENTITY, admin.getUsername());
+        claims.put(Common.ID, a.getId().toString());
+        claims.put(Common.USERNAME, a.getUsername());
+        claims.put(Common.IDENTITY, Common.ADMIN);
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中

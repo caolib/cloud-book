@@ -113,6 +113,11 @@ public class BookServiceImpl implements BookService {
             return Result.error(msg);
         }
 
+        if (book.getNumber() < 0) {
+            String msg = Excep.BOOK_NUMBER_ERROR;
+            log.error(msg);
+            return Result.error(msg);
+        }
         bookMapper.updateById(book);
 
         return Result.success();

@@ -3,7 +3,7 @@ package com.clb.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.clb.constant.Common;
 import com.clb.domain.Excep;
-import com.clb.domain.Reader;
+import com.clb.domain.UserDto;
 import com.clb.exception.TokenException;
 import com.clb.util.JwtUtils;
 import io.jsonwebtoken.Claims;
@@ -29,7 +29,7 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         String path = exchange.getRequest().getPath().value();
         // 不对/login和/register接口校验
         if (path.endsWith("/login") || path.endsWith("/register")) {
-            log.debug("登录注册接口，直接跳过...");
+            //log.debug("登录注册接口，直接跳过...");
             return chain.filter(exchange);
         }
 
@@ -37,7 +37,7 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         log.debug("token:{}", token);
         // 如果token为空，拦截请求，返回状态码401
         if (token == null || token.isEmpty()) {
-            log.error("token为空");
+            log.error(Excep.TOKEN_NOT_EXIST);
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
@@ -51,6 +51,7 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
             }
         } catch (Exception e) {
             // 身份过期
+            log.error(Excep.TOKEN_ALREADY_EXPIRED);
             exchange.getResponse().setRawStatusCode(499);
             return exchange.getResponse().setComplete();
         }
@@ -62,10 +63,10 @@ public class JwtTokenInterceptor implements GlobalFilter, Ordered {
         String identity = claims.get(Common.IDENTITY, String.class);
         log.debug("id:{},username:{},identity:{}", id, username, identity);
 
-        Reader reader = Reader.builder().id(id).username(username).build();
-
+        //Reader reader = Reader.builder().id(id).username(username).build();
+        UserDto user = new UserDto(id, username, identity);
         // 将令牌解析后的用户信息保存到请求头中，继续传给后面的服务使用
-        exchange.mutate().request(consumer -> consumer.header("user", JSON.toJSONString(reader))).build();
+        exchange.mutate().request(consumer -> consumer.header("user", JSON.toJSONString(user))).build();
 
         return chain.filter(exchange);
     }
