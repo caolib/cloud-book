@@ -4,7 +4,11 @@ spring:
   cloud:
     nacos:
       server-addr: localhost:8848
-      discovery:
-        ephemeral: false
+    #      discovery:
+    #        heart-beat-timeout: 10000
+    #        weight: 2
+    loadbalancer:
+      ribbon:
+        enabled: false
   application:
-    name: borrow-service
+    name: ms-borrow

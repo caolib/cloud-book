@@ -39,7 +39,7 @@ public class AdminController {
      */
     @PostMapping("/login")
     public Result<AdminVo> login(@RequestBody @Validated LoginDto admin) {
-        log.debug("admin:{}", admin);
+        log.debug("login-admin:{}", admin);
 
         return adminService.login(admin);
     }
@@ -51,7 +51,7 @@ public class AdminController {
      */
     @PostMapping("/register")
     public Result<String> register(@RequestBody @Validated Admin admin) {
-        log.debug("admin{}", admin);
+        log.debug("register-admin{}", admin);
 
         return adminService.register(admin);
     }

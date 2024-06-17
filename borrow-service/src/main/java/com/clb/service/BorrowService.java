@@ -23,4 +23,6 @@ public interface BorrowService {
 
 
     List<Borrow> getBorrowByIsbn(String isbn);
+
+    Result<String> borrow2(String isbn, Date borrow, Date due);
 }

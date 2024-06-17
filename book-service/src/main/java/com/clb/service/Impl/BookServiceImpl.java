@@ -9,8 +9,6 @@ import com.clb.common.domain.Borrow;
 import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.Condition;
 import com.clb.common.domain.entity.Book;
-import com.clb.common.exception.AlreadyExistException;
-import com.clb.common.exception.BaseException;
 import com.clb.mapper.BookMapper;
 import com.clb.service.BookService;
 import com.clb.util.MyUtils;
@@ -38,23 +36,33 @@ public class BookServiceImpl implements BookService {
 
         LambdaQueryWrapper<Book> queryWrapper = new LambdaQueryWrapper<>();
         // 根据搜索条件查询
-        queryWrapper
-                .eq(MyUtils.StrUtil(isbn), Book::getIsbn, isbn)
-                .like(MyUtils.StrUtil(bookName), Book::getTitle, bookName)
-                .like(MyUtils.StrUtil(author), Book::getAuthor, author);
+        queryWrapper.eq(MyUtils.notNull(isbn), Book::getIsbn, isbn)
+                .like(MyUtils.notNull(bookName), Book::getTitle, bookName)
+                .like(MyUtils.notNull(author), Book::getAuthor, author);
         // 分页查询
         return bookMapper.selectPage(new Page<>(currentPage, pageSize), queryWrapper);
     }
 
     @Override
-    public void deleteBookByIsbn(String isbn) {
+    public Result<String> deleteBookByIsbn(String isbn) {
+        // 查询isbn是否存在
+        Book book = bookMapper.selectById(isbn);
+        if (book == null) {
+            String msg = Excep.ISBN_NOT_EXIST;
+            log.error(msg);
+            return Result.error(msg);
+        }
+
         // 先查询借阅表中是否有记录，有记录就不允许删除
         List<Borrow> borrows = borrowClient.getBorrowByIsbn(isbn);
         if (!borrows.isEmpty()) {
-            throw new AlreadyExistException(Excep.DELETE_BOOK_NOT_ALLOW);
+            String msg = Excep.DELETE_BOOK_NOT_ALLOW;
+            log.error(msg);
+            return Result.error(msg);
         }
 
         bookMapper.deleteById(isbn);
+        return Result.success();
     }
 
     @Override
@@ -63,22 +71,30 @@ public class BookServiceImpl implements BookService {
         String title = book.getTitle();
         Integer number = book.getNumber();
         //isbn不能为空
-        if (!MyUtils.StrUtil(isbn)) {
-            throw new BaseException(Excep.ISBN_IS_NULL);
+        if (!MyUtils.notNull(isbn)) {
+            String msg = Excep.ISBN_IS_NULL;
+            log.error(msg);
+            return Result.error(msg);
         }
         //书名不能为空
-        if (!MyUtils.StrUtil(title)) {
-            throw new BaseException(Excep.TITLE_IS_NULL);
+        if (!MyUtils.notNull(title)) {
+            String msg = Excep.TITLE_IS_NULL;
+            log.error(msg);
+            return Result.error(msg);
         }
         // 库存量大于等于0
         if (number == null || number < 0) {
-            throw new BaseException(Excep.BOOK_NUMBER_ERROR);
+            String msg = Excep.BOOK_NUMBER_ERROR;
+            log.error(msg);
+            return Result.error(msg);
         }
 
         // 查找isbn是否存在
         Long l = bookMapper.getByIsbn(isbn);
         if (l > 0) {
-            throw new AlreadyExistException(Excep.ISBN_ALREADY_EXIST);
+            String msg = Excep.ISBN_ALREADY_EXIST;
+            log.error(msg);
+            return Result.error(msg);
         }
 
         bookMapper.insert(book);
@@ -92,9 +108,16 @@ public class BookServiceImpl implements BookService {
         //查询isbn是否存在
         Book b = bookMapper.selectById(isbn);
         if (b == null) {
-            throw new BaseException(Excep.ISBN_NOT_EXIST);
+            String msg = Excep.ISBN_NOT_EXIST;
+            log.error(msg);
+            return Result.error(msg);
         }
 
+        if (book.getNumber() < 0) {
+            String msg = Excep.BOOK_NUMBER_ERROR;
+            log.error(msg);
+            return Result.error(msg);
+        }
         bookMapper.updateById(book);
 
         return Result.success();

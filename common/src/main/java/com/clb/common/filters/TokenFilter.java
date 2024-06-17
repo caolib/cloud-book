@@ -2,7 +2,7 @@ package com.clb.common.filters;
 
 
 import com.alibaba.fastjson.JSON;
-import com.clb.common.domain.entity.Reader;
+import com.clb.common.domain.dto.UserDto;
 import com.clb.common.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 @ConditionalOnClass(DispatcherServlet.class)
 public class TokenFilter implements HandlerInterceptor {
     @Override
-    public boolean preHandle(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        String user = request.getHeader("user");
-        Reader reader = JSON.parseObject(user, Reader.class);
-        log.debug("reader{}", reader);
+        String data = request.getHeader("user");
+        UserDto user = JSON.parseObject(data, UserDto.class);
+        log.debug("user:{}", user);
 
         // 保存到ThreadLocal
-        ThreadLocalUtil.set(reader);
+        ThreadLocalUtil.set(user);
 
         return true;
     }

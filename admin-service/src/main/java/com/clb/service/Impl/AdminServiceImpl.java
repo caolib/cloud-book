@@ -1,17 +1,15 @@
 package com.clb.service.Impl;
 
+import com.clb.common.constant.Common;
 import com.clb.common.constant.Excep;
 import com.clb.common.constant.Jwt;
 import com.clb.common.domain.Result;
 import com.clb.common.domain.dto.LoginDto;
 import com.clb.common.domain.entity.Admin;
 import com.clb.common.domain.vo.AdminVo;
-import com.clb.common.exception.AlreadyExistException;
-import com.clb.common.exception.BaseException;
 import com.clb.mapper.AdminMapper;
 import com.clb.service.AdminService;
 import com.clb.util.JwtUtils;
-import com.clb.util.MyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -50,11 +48,13 @@ public class AdminServiceImpl implements AdminService {
 
         //生成令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", admin.getUsername());
+        claims.put(Common.ID, a.getId().toString());
+        claims.put(Common.USERNAME, a.getUsername());
+        claims.put(Common.IDENTITY, Common.ADMIN);
         String token = JwtUtils.generateJwt(claims);
 
         // 将令牌保存到redis中
-        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(token, token, Jwt.EXPIRE_TIME, TimeUnit.MILLISECONDS);
 
         // 封装信息
         AdminVo adminVo = new AdminVo();
@@ -69,20 +69,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result<String> register(Admin admin) {
-        String username = admin.getUsername();
-        String password = admin.getPassword();
-
-        // 用户名和密码不能为空
-        if (!MyUtils.StrUtil(username) || !MyUtils.StrUtil(password)) {
-            throw new BaseException(Excep.REGISTER_ERROR);
-        }
-
         // 查询用户名是否已经存在
-        Admin a = adminMapper.selectByUsername(username);
+        Admin a = adminMapper.selectByUsername(admin.getUsername());
         if (a != null) {
-            throw new AlreadyExistException(Excep.USER_ALREADY_EXIST);
+            return Result.error(Excep.USER_ALREADY_EXIST);
         }
-
         adminMapper.insert(admin);
 
         return Result.success();
@@ -90,6 +81,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result<String> updateById(Admin admin) {
+
         adminMapper.updateById(admin);
 
         return Result.success();

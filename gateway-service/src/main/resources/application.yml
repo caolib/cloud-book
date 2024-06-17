@@ -3,27 +3,27 @@ server:
 
 
 spring:
-  # nacos配置
   cloud:
     gateway:
+      # 路由配置
       routes:
         - id: reader_route
-          uri: lb://reader-service
+          uri: lb://ms-reader
           predicates:
             - Path=/reader/**
 
         - id: book_route
-          uri: lb://book-service
+          uri: lb://ms-book
           predicates:
             - Path=/book/**
 
         - id: borrow_route
-          uri: lb://borrow-service
+          uri: lb://ms-borrow
           predicates:
             - Path=/borrow/**
 
         - id: admin_route
-          uri: lb://admin-service
+          uri: lb://ms-admin
           predicates:
             - Path=/admin/**
       globalcors: # 全局的跨域处理
@@ -40,21 +40,21 @@ spring:
             allowedHeaders: "*" # 允许在请求中携带的头信息
             allowCredentials: true # 是否允许携带cookie
             maxAge: 360000 # 这次跨域检测的有效期
-    sentinel:
-      transport:
-        dashboard: localhost:8079 # sentinel控制台地址
-
+  #    sentinel:
+  #      transport:
+  #        dashboard: localhost:8079 # sentinel控制台地址
 
   redis:
-    #    host: 192.168.0.88
     host: centos
     password: 123456
     port: 6379
     database: 0
+    timeout: 8000
 
+  # 热重载
   devtools:
     restart:
-      enabled: true
+      enabled: false
 
 
 

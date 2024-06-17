@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@FeignClient("book-service")
+@FeignClient("ms-book")
 @RequestMapping("/book")
 public interface BookClient {
 

@@ -2,7 +2,7 @@ package com.clb.util;
 
 
 import com.clb.common.constant.Excep;
-import com.clb.common.exception.BaseException;
+import com.clb.ecxeption.BorrowException;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -22,14 +22,14 @@ public class MyUtils {
      */
     public static Date StrToDate(String date) {
         if (!StrUtil(date)) {
-            throw new BaseException(Excep.DATE_IS_NULL);
+            throw new BorrowException(Excep.DATE_IS_NULL);
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             java.util.Date utilDate = format.parse(date);
             return new java.sql.Date(utilDate.getTime());
         } catch (ParseException e) {
-            throw new BaseException(Excep.DATE_FORMAT_ERROR);
+            throw new BorrowException(Excep.DATE_FORMAT_ERROR);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.clb.common.domain;
+package com.clb.domain;
 
 import lombok.Data;
 
@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * 统一的返回结果对象
+ *
  * @param <T> 返回的数据类型，泛型
  */
 
@@ -18,7 +19,7 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> success() {
         Result<T> result = new Result<>();
         result.code = 1;
-        result.msg= "成功";
+        result.msg = "成功";
         return result;
     }
 
