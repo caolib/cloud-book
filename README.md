@@ -1,4 +1,4 @@
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=cascadia+cde&pause=1000&center=true&vCenter=true&random=false&width=500&separator=%3C&lines=System.out.println(%22springcloud%2Cstart!%22);%3Cbook-management-system-cloud)](https://git.io/typing-svg)
+![cloud-book](https://socialify.git.ci/caolib/cloud-book/image?description=1&descriptionEditable=%E5%9B%BE%E4%B9%A6%E5%80%9F%E9%98%85%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0&font=Source%20Code%20Pro&language=1&logo=https%3A%2F%2Fs2.loli.net%2F2024%2F06%2F02%2FwuJknzxaFigDSdL.gif&name=1&owner=1&pattern=Circuit%20Board&theme=Auto)
 
 # [项目预览](https://clbbook.pages.dev)
 
